@@ -202,43 +202,61 @@
 ?>
 <div class="bg-info text-white text-left">累積雨量</div>
 <?php
-  $cityname = $_POST["cityname"];
-  $rainList = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$cityname&elementName=RAIN,HOUR_24", "rb");
+    $cityname = $_POST["cityname"];
+    $rainList = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$cityname&elementName=RAIN,HOUR_24,NOW", "rb");
   
-  $rain = "";
-  while(!feof($rainList)){
-    $rain .= fread($rainList, 100000);
-  }
-  fclose($rainList);
-  $rain = json_decode($rain);
-  // var_dump($rain);
-  foreach($rain->records->location[0]->weatherElement as $hexi => $swa){
+    $rain = "";
+    while(!feof($rainList)){
+      $rain .= fread($rainList, 100000);
+    }
+    fclose($rainList);
+    $rain = json_decode($rain);
+    // var_dump($rain);
+
+    $hour1 = "";
+    $hour24 = "";
+    foreach($rain->records->location[0]->weatherElement as $hexi => $swa){
     if($swa->elementValue == "-998.00"){
       echo "過去1小時累積雨量 : 0 毫米<br>";
-      echo "過去24小時累積雨量 : 0 毫米<br>"; 
+      echo "過去24小時累積雨量 : 0 毫米<br>";
+      $hour1 = "0";
+      $hour24 = "0";
       break;
-    }
+      }
     else if($swa->elementName == "RAIN"){
       if($swa->elementValue == "-999.00"){
         echo "過去1小時累積雨量 : 該時刻因故無資料<br>";
+        $hour1 = "該時刻因故無資料";
       }
       else {
         echo "過去1小時累積雨量 : $swa->elementValue 毫米<br>"; 
+        $hour1 = "$swa->elementValue";
       }
     }
     else if($swa->elementName == "HOUR_24"){
       if($swa->elementValue == "-999.00"){
         echo "過去24小時累積雨量 : 該時刻因故無資料<br>"; 
+        $hour24 = "該時刻因故無資料";
       }
       else {
         echo "過去24小時累積雨量 : $swa->elementValue 毫米<br>"; 
+        $hour24 = "$swa->elementValue";
       }
     }
-  }
-  echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
-?>
+    }
+    echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
 
-<?php
+    $upday = date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime));
+    require("linksql.php");
+    $sql = "update rain set
+    hour1 = '$hour1',
+    hour24 = '$hour24',
+    upday = '$upday'
+    where citySit = '$cityname';
+    ";
+    mysqli_query($link , $sql);
+    mysqli_close($link);
+
   } 
 ?>
 </body>
