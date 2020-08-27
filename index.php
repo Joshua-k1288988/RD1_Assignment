@@ -60,10 +60,9 @@
     <button name = "raining" type="submit" class="btn btn-success">累積雨量</button>
   </div>
 </form>
-<br>
 <?php if(isset($_POST["btnOK"]) || isset($_POST["twodays"]) || isset($_POST["week"]) || isset($_POST["raining"])){ ?>
   <div>
-    <img src="./image/<?= $_POST["cityname"] ?>.jpg" class="img-thumbnail mx-auto d-block" >
+    <img src="image/<?= $_POST["cityname"] ?>.jpg" class="img-thumbnail mx-auto d-block" >
   </div>
 <?php  }  ?>
 
@@ -117,13 +116,26 @@
     foreach($content ->records->location[0]->weatherElement as $key => $value){
 
         if($value->elementName == "TEMP" && $value->elementValue != "-99")
-        {echo "溫度：$value->elementValue ℃<br>";}
+        {echo "溫度：$value->elementValue ℃<br>"; $TEMP = $value->elementValue;}
     }
 
     // echo "天氣：" . $content2->records->location[0]->weatherElement[0]->time[0]->parameter->parameterName . "<br>";
     echo "天氣：" . $content2->records->locations[0]->location[0]->weatherElement[0]->time[0]->elementValue[0]->value . "<br>";
 
     echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($content ->records->location[0]->time->obsTime) )."<br>";
+
+    require("linksql.php");
+    $weather = $content2->records->locations[0]->location[0]->weatherElement[0]->time[0]->elementValue[0]->value;
+    $upday = date("Y年m月d日  G點i分",strtotime($content ->records->location[0]->time->obsTime));
+    
+    $sql = "update nowWeather set
+    TEMP = $TEMP,
+    weather = '$weather',
+    upday = '$upday'
+    where citySit = '$citynam';
+    ";
+    mysqli_query($link , $sql);
+    mysqli_close($link);
 
   }  
 ?>
@@ -153,7 +165,7 @@
     ?>
     </div><br>
 <?php 
-    }    
+    } 
   } 
 ?>
 
@@ -200,21 +212,29 @@
   fclose($rainList);
   $rain = json_decode($rain);
   // var_dump($rain);
-  $ahour = "";
-  $hour24 = "";
   foreach($rain->records->location[0]->weatherElement as $hexi => $swa){
-    if($swa->elementValue == "-998.00"){$ahour = "0"; $hour24 = "0"; break;}
+    if($swa->elementValue == "-998.00"){
+      echo "過去1小時累積雨量 : 0 毫米<br>";
+      echo "過去24小時累積雨量 : 0 毫米<br>"; 
+      break;
+    }
     else if($swa->elementName == "RAIN"){
-      if($swa->elementValue == "-999.00"){$ahour = "該時刻因故無資料";}
-      else {$ahour = $swa->elementValue;}
+      if($swa->elementValue == "-999.00"){
+        echo "過去1小時累積雨量 : 該時刻因故無資料<br>";
+      }
+      else {
+        echo "過去1小時累積雨量 : $swa->elementValue 毫米<br>"; 
+      }
     }
     else if($swa->elementName == "HOUR_24"){
-      if($swa->elementValue == "-999.00"){$hour24 = "該時刻因故無資料";}
-      else {$hour24 = $swa->elementValue;}
+      if($swa->elementValue == "-999.00"){
+        echo "過去24小時累積雨量 : 該時刻因故無資料<br>"; 
+      }
+      else {
+        echo "過去24小時累積雨量 : $swa->elementValue 毫米<br>"; 
+      }
     }
   }
-  echo "過去1小時累積雨量 : $ahour<br>";
-  echo "過去24小時累積雨量 : $hour24<br>";
   echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
 ?>
 

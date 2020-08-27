@@ -61,11 +61,6 @@
   </div>
 </form>
 <br>
-<?php if(isset($_POST["btnOK"]) || isset($_POST["twodays"]) || isset($_POST["week"]) || isset($_POST["raining"])){ ?>
-  <div>
-    <img src="./image/<?= $_POST["cityname"] ?>.jpg" class="img-thumbnail" >
-  </div>
-<?php  }  ?>
 
 <div class = " text-center">
 <?php
@@ -217,7 +212,6 @@
   echo "過去24小時累積雨量 : $hour24<br>";
   echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
 ?>
-
 <?php
   } 
 ?>
