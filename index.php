@@ -5,6 +5,7 @@
   else{
     $_SESSION["cityname"] = "";
   }
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,80 +27,199 @@
     <label for="cityname" class="col-4 col-form-label text-right">選擇縣市</label> 
     <div class="col-5">
       <select id="cityname" name="cityname" class="custom-select">
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "基隆"){echo "selected";} ?> value="基隆">基隆市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺北"){echo "selected";} ?> value="臺北">臺北市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "板橋"){echo "selected";} ?> value="板橋">新北市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "新屋"){echo "selected";} ?> value="新屋">桃園市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "香山"){echo "selected";} ?> value="香山">新竹市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "新竹"){echo "selected";} ?> value="新竹">新竹縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "苗栗"){echo "selected";} ?> value="苗栗">苗栗縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺中"){echo "selected";} ?> value="臺中">臺中市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "田中"){echo "selected";} ?> value="田中">彰化縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "日月潭"){echo "selected";} ?> value="日月潭">南投縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "四湖"){echo "selected";} ?> value="四湖">雲林縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "嘉義"){echo "selected";} ?> value="嘉義">嘉義市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "阿里山"){echo "selected";} ?> value="阿里山">嘉義縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺南"){echo "selected";} ?> value="臺南">臺南市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "高雄"){echo "selected";} ?> value="高雄">高雄市</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "恆春"){echo "selected";} ?> value="恆春">屏東縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "宜蘭"){echo "selected";} ?> value="宜蘭">宜蘭縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "花蓮"){echo "selected";} ?> value="花蓮">花蓮縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺東"){echo "selected";} ?> value="臺東">臺東縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "澎湖"){echo "selected";} ?> value="澎湖">澎湖縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "金門"){echo "selected";} ?> value="金門">金門縣</option>
-        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "馬祖"){echo "selected";} ?> value="馬祖">連江縣</option>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "基隆"){echo "selected";} ?> value="基隆">基隆市</option>   <?php $bigcity["基隆"] = "基隆市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺北"){echo "selected";} ?> value="臺北">臺北市</option>   <?php $bigcity["臺北"] = "臺北市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "板橋"){echo "selected";} ?> value="板橋">新北市</option>   <?php $bigcity["板橋"] = "新北市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "新屋"){echo "selected";} ?> value="新屋">桃園市</option>   <?php $bigcity["新屋"] = "桃園市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "香山"){echo "selected";} ?> value="香山">新竹市</option>   <?php $bigcity["香山"] = "新竹市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "新竹"){echo "selected";} ?> value="新竹">新竹縣</option>   <?php $bigcity["新竹"] = "新竹縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "苗栗"){echo "selected";} ?> value="苗栗">苗栗縣</option>   <?php $bigcity["苗栗"] = "苗栗縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺中"){echo "selected";} ?> value="臺中">臺中市</option>   <?php $bigcity["臺中"] = "臺中市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "田中"){echo "selected";} ?> value="田中">彰化縣</option>   <?php $bigcity["田中"] = "彰化縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "日月潭"){echo "selected";} ?> value="日月潭">南投縣</option><?php $bigcity["日月潭"] = "南投縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "四湖"){echo "selected";} ?> value="四湖">雲林縣</option>   <?php $bigcity["四湖"] = "雲林縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "嘉義"){echo "selected";} ?> value="嘉義">嘉義市</option>   <?php $bigcity["嘉義"] = "嘉義市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "阿里山"){echo "selected";} ?> value="阿里山">嘉義縣</option><?php $bigcity["阿里山"] = "嘉義縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺南"){echo "selected";} ?> value="臺南">臺南市</option>   <?php $bigcity["臺南"] = "臺南市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "高雄"){echo "selected";} ?> value="高雄">高雄市</option>   <?php $bigcity["高雄"] = "高雄市"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "恆春"){echo "selected";} ?> value="恆春">屏東縣</option>   <?php $bigcity["恆春"] = "屏東縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "宜蘭"){echo "selected";} ?> value="宜蘭">宜蘭縣</option>   <?php $bigcity["宜蘭"] = "宜蘭縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "花蓮"){echo "selected";} ?> value="花蓮">花蓮縣</option>   <?php $bigcity["花蓮"] = "花蓮縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "臺東"){echo "selected";} ?> value="臺東">臺東縣</option>   <?php $bigcity["臺東"] = "臺東縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "澎湖"){echo "selected";} ?> value="澎湖">澎湖縣</option>   <?php $bigcity["澎湖"] = "澎湖縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "金門"){echo "selected";} ?> value="金門">金門縣</option>  <?php $bigcity["金門"] = "金門縣"; ?>
+        <option <?php if($_SESSION["cityname"] !="" && $_SESSION["cityname"] == "馬祖"){echo "selected";} ?> value="馬祖">連江縣</option>  <?php $bigcity["馬祖"] = "連江縣"; ?>
       </select>
     </div>
-    <button name="btnOK" type="submit" class="btn btn-primary">確定</button>
+    <button name="btnOK" type="submit" class="btn btn-primary">現在天氣</button>
 
   </div> 
+  <div align="center">
+    <button name = "twodays" type="submit" class="btn btn-info">未來兩天天氣預報</button>
+    <button name = "week" type="submit" class="btn btn-info">未來一週天氣預報</button>
+    <button name = "raining" type="submit" class="btn btn-success">累積雨量</button>
+  </div>
 </form>
+<br>
+<?php if(isset($_POST["btnOK"]) || isset($_POST["twodays"]) || isset($_POST["week"]) || isset($_POST["raining"])){ ?>
+  <div>
+    <img src="./image/<?= $_POST["cityname"] ?>.jpg" class="img-thumbnail mx-auto d-block" >
+  </div>
+<?php  }  ?>
 
-<div class = "text-center">
+<div class = " text-center">
 <?php
-if(isset($_POST["btnOK"])  ){ ?>
-  <div class="bg-dark text-white text-left">  當前天氣狀況</div>
+  if(isset($_POST["btnOK"])  ){ 
+?>
+<div class="bg-dark text-white text-left">  當前天氣狀況</div>
 <?php
     $citynam = $_POST["cityname"] ;
-    if($citynam == "香山"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=新竹&elementName=TEMP,Weather","rb");} // 新竹市
-    else if($citynam == "四湖"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=嘉義&elementName=TEMP,Weather","rb");} // 雲林沒有天氣觀測所，用比較近的嘉義觀測所
-    else if($citynam == "苗栗"){  $datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam&elementName=TEMP","rb");  }
-    else if($citynam == "臺南"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&limit=10&format=JSON&stationId=467410&elementName=TEMP,Weather", "rb");}
-    else {$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam&elementName=TEMP,Weather","rb");}
+    $citynam2 = $bigcity["$citynam"];
+    if($citynam == "香山"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=新竹&elementName=TEMP","rb");
+      $dataweather = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=Wx","rb");
+    } // 新竹市
+    
+    else if($citynam == "四湖"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=嘉義&elementName=TEMP","rb");
+      $dataweather = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=Wx","rb");
+    } // 雲林沒有天氣觀測所，用比較近的嘉義觀測所
+    
+    else if($citynam == "苗栗"){  $datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam&elementName=TEMP","rb");
+      $dataweather = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=Wx","rb");
+    }
+    
+    else if($citynam == "臺南"){$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&limit=10&format=JSON&stationId=467410&elementName=TEMP", "rb");
+      $dataweather = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=Wx","rb");
+    }
+    
+    else {$datelist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam&elementName=TEMP","rb");
+      $dataweather = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=Wx","rb");
+    }
     
     
     $content = "";
+    $content2 = "";
 
     while(!feof($datelist)){
         $content .= fread($datelist, 100000);
     }
     fclose($datelist);
 
+    while(!feof($dataweather)){
+      $content2 .= fread($dataweather, 100000);
+    }
+    fclose($dataweather);
+
     
     $content = json_decode($content);
-    // var_dump($content);
+    $content2 = json_decode($content2);
+    // var_dump($content2);
 
     foreach($content ->records->location[0]->weatherElement as $key => $value){
 
         if($value->elementName == "TEMP" && $value->elementValue != "-99")
         {echo "溫度：$value->elementValue ℃<br>";}
-        if($value->elementName == "Weather" && $value->elementValue != "-99"){
-            echo "天氣：$value->elementValue <br>";
-            
-        } else if($value->elementName == "Weather" && $value->elementValue == "-99"){
-            echo "天氣：沒有當前數據 <br>";
-        }
-        else if($citynam == "苗栗"){echo "天氣：苗栗國是不需要天氣的！！ <br>";}
     }
-    echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($content ->records->location[0]->time->obsTime) )."<br>";
-}
- 
 
+    // echo "天氣：" . $content2->records->location[0]->weatherElement[0]->time[0]->parameter->parameterName . "<br>";
+    echo "天氣：" . $content2->records->locations[0]->location[0]->weatherElement[0]->time[0]->elementValue[0]->value . "<br>";
+
+    echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($content ->records->location[0]->time->obsTime) )."<br>";
+
+  }  
 ?>
 </div>
-<div class="bg-dark text-white">  未來天氣預報</div>
 
+<?php 
+  if(isset($_POST["week"])) {
+?>
+<div class="bg-dark text-white text-left">  未來一週天氣預報</div>
+<?php
+    $citynam = $_POST["cityname"] ;
+    $citynam2 = $bigcity["$citynam"];
+    $twodaylist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=WeatherDescription","rb");
+    $twodays = "";
+    while(!feof($twodaylist)){
+      $twodays .= fread($twodaylist, 100000);
+    }
+    fclose($twodaylist);
+    $twodays = json_decode($twodays);
+    // var_dump ($twodays);
+    foreach($twodays->records->locations[0]->location[0]->weatherElement[0]->time as $WE =>$weaDes){
+?>
+    <div class="container alert-success text-left">
+    <?php
+      echo date("m月d日 G點~",strtotime($weaDes->startTime)) . date("m月d日 G點",strtotime($weaDes->endTime)) . " : <br>";
+      echo $weaDes->elementValue[0]->value . "<br>";
+    ?>
+    </div><br>
+<?php 
+    }    
+  } 
+?>
 
+<?php 
+  if(isset($_POST["twodays"])) {
+?>
+<div class="bg-dark text-white text-left">  未來２天天氣預報</div>
+<?php
+    $citynam = $_POST["cityname"] ;
+    $citynam2 = $bigcity["$citynam"];
+    $twodaylist = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$citynam2&elementName=WeatherDescription","rb");
+    $twodays = "";
+    while(!feof($twodaylist)){
+      $twodays .= fread($twodaylist, 100000);
+    }
+    fclose($twodaylist);
+    $twodays = json_decode($twodays);
+    // var_dump ($twodays);
+    foreach($twodays->records->locations[0]->location[0]->weatherElement[0]->time as $WE =>$weaDes){
+?>
+    <div class="container alert-success text-left">
+    <?php
+      echo date("m月d日 G點~",strtotime($weaDes->startTime)) . date("m月d日 G點",strtotime($weaDes->endTime)) . " : <br>";
+      echo $weaDes->elementValue[0]->value . "<br>";
+    ?>
+    </div><br>
+<?php 
+    }    
+  } 
+?>
 
+<?php 
+  if(isset($_POST["raining"])){
+?>
+<div class="bg-info text-white text-left">累積雨量</div>
+<?php
+  $cityname = $_POST["cityname"];
+  $rainList = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$cityname&elementName=RAIN,HOUR_24", "rb");
+  
+  $rain = "";
+  while(!feof($rainList)){
+    $rain .= fread($rainList, 100000);
+  }
+  fclose($rainList);
+  $rain = json_decode($rain);
+  // var_dump($rain);
+  $ahour = "";
+  $hour24 = "";
+  foreach($rain->records->location[0]->weatherElement as $hexi => $swa){
+    if($swa->elementValue == "-998.00"){$ahour = "0"; $hour24 = "0"; break;}
+    else if($swa->elementName == "RAIN"){
+      if($swa->elementValue == "-999.00"){$ahour = "該時刻因故無資料";}
+      else {$ahour = $swa->elementValue;}
+    }
+    else if($swa->elementName == "HOUR_24"){
+      if($swa->elementValue == "-999.00"){$hour24 = "該時刻因故無資料";}
+      else {$hour24 = $swa->elementValue;}
+    }
+  }
+  echo "過去1小時累積雨量 : $ahour<br>";
+  echo "過去24小時累積雨量 : $hour24<br>";
+  echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
+?>
+
+<?php
+  } 
+?>
 </body>
 </html>
