@@ -5,7 +5,18 @@
   else{
     $_SESSION["cityname"] = "";
   }
-  
+
+  if(! @mysqli_connect("localhost", "root", "",  "weatherDB", 3306)){
+    // die("連接失敗：" . mysqli_connect_error());
+    $frist = mysqli_connect("localhost", "root", "" );
+    $sql = "CREATE DATABASE weatherDB DEFAULT CHARACTER SET utf8;";
+    mysqli_query($frist , $sql);
+    mysqli_close($frist);
+    require("creatdatabase.php");
+    require("madecity.php");
+    require("raindatatable.php");
+    require("madenowweather.php");
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +69,7 @@
     <button name = "twodays" type="submit" class="btn btn-info">未來兩天天氣預報</button>
     <button name = "week" type="submit" class="btn btn-info">未來一週天氣預報</button>
     <button name = "raining" type="submit" class="btn btn-success">累積雨量</button>
+    <button name = "reset" type="submit" class="btn btn-success">重置資料庫</button>
   </div>
 </form>
 <br>
@@ -186,34 +198,55 @@
 <div class="bg-info text-white text-left">累積雨量</div>
 <?php
   $cityname = $_POST["cityname"];
-  $rainList = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&locationName=$cityname&elementName=RAIN,HOUR_24", "rb");
+  $rainList = fopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-343CA766-1C35-4214-AEC4-F01300ADCE59&format=JSON&elementName=RAIN,HOUR_24", "rb");
   
   $rain = "";
   while(!feof($rainList)){
-    $rain .= fread($rainList, 100000);
+    $rain .= fread($rainList, 500000);
   }
   fclose($rainList);
   $rain = json_decode($rain);
   // var_dump($rain);
   $ahour = "";
   $hour24 = "";
-  foreach($rain->records->location[0]->weatherElement as $hexi => $swa){
-    if($swa->elementValue == "-998.00"){$ahour = "0"; $hour24 = "0"; break;}
-    else if($swa->elementName == "RAIN"){
-      if($swa->elementValue == "-999.00"){$ahour = "該時刻因故無資料";}
-      else {$ahour = $swa->elementValue;}
+  foreach($rain->records->location as $hexi => $swa){
+    if($swa->parameter[0]->parameterName == "CITY" && $swa->parameter[0]->parameterValue == $bigcity["$cityname"]){
+      echo "觀測站：" . $swa->locationName . "<br>";
+      if($swa->weatherElement[0]->elementValue == "-998.00" || $swa->weatherElement[1]->elementValue == "-998.00"){$ahour = "0"; $hour24 = "0";
+        echo "過去1小時累積雨量 : $ahour<br>";
+        echo "過去24小時累積雨量 : $hour24<br>";
+      }else{
+        if($swa->weatherElement[0]->elementValue == "-999.00"){$ahour = "該時刻因故無資料"; echo "過去1小時累積雨量 : $ahour<br>";}
+        else {$ahour = $swa->weatherElement[0]->elementValue; echo "過去1小時累積雨量 : $ahour<br>";}
+
+        if($swa->weatherElement[1]->elementValue == "-999.00"){$hour24 = "該時刻因故無資料"; echo "過去24小時累積雨量 : $hour24<br>";}
+        else {$hour24 = $swa->weatherElement[1]->elementValue; echo "過去24小時累積雨量 : $hour24<br>";}
+      }    
+      echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($swa->time->obsTime) )."<hr>";
+      $upday = date("Y年m月d日  G點i分",strtotime($swa->time->obsTime));
+      require("DB.php");
+      $sql = "update rain set
+      hour1 = '$ahour',
+      hour24 = '$hour24',
+      upday = '$upday'
+      where citySit = '$swa->locationName';
+      ";
+      mysqli_query($link , $sql);
+      mysqli_close($link);
     }
-    else if($swa->elementName == "HOUR_24"){
-      if($swa->elementValue == "-999.00"){$hour24 = "該時刻因故無資料";}
-      else {$hour24 = $swa->elementValue;}
-    }
+    
   }
-  echo "過去1小時累積雨量 : $ahour<br>";
-  echo "過去24小時累積雨量 : $hour24<br>";
-  echo "資料更新日期：".date("Y年m月d日  G點i分",strtotime($rain->records->location[0]->time->obsTime) )."<br>";
-?>
-<?php
+  
   } 
+?>
+
+<?php
+  if(isset($_POST["reset"])){
+    require("creatdatabase.php");
+    require("madecity.php");
+    require("raindatatable.php");
+    require("madenowweather.php");
+  }
 ?>
 </body>
 </html>
